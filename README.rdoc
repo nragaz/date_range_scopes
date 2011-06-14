@@ -4,10 +4,10 @@ Automatically add scopes for day, week, month and year ranges to Active Record m
 
 == Usage
 
-class User < ActiveRecord::Base
-  include DateRangeScopes
-end
-
-# => User.created_on
-# => User.created_in_week(5.weeks.ago)
-# => User.created_in_year
+    class User < ActiveRecord::Base
+      include DateRangeScopes
+    end
+    
+    # => User.created_on
+    # => User.created_in_week(5.weeks.ago)
+    # => User.created_in_year
