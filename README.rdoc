@@ -1,3 +1,13 @@
 = DateRangeScopes
 
-This project rocks and uses MIT-LICENSE.
+Automatically add scopes for day, week, month and year ranges to Active Record models.
+
+== Usage
+
+class User < ActiveRecord::Base
+  include DateRangeScopes
+end
+
+# => User.created_on
+# => User.created_in_week(5.weeks.ago)
+# => User.created_in_year
