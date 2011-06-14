@@ -1,8 +1,10 @@
-= DateRangeScopes
+DateRangeScopes
+===============
 
 Automatically add scopes for day, week, month and year ranges to Active Record models. See [date_range_scopes.rb](https://github.com/nragaz/date_range_scopes/blob/master/lib/date_range_scopes.rb) for a full example.
 
-== Usage
+Usage
+-----
 
     class User < ActiveRecord::Base
       include DateRangeScopes
