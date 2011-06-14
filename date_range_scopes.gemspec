@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = "date_range_scopes"
   s.summary = "Automatically add scopes for day, week, month and year ranges to Active Record models."
   s.description = "Automatically add scopes for day, week, month and year ranges to Active Record models."
-  s.files = Dir["lib/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["lib/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.version = "0.0.1"
   s.authors = ["Nick Ragaz"]
   s.email = "nick.ragaz@gmail.com"
