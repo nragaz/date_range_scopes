@@ -24,6 +24,7 @@ module DateRangeScopes
     date_columns.each do |col|
       key = col.slice(0..-4)
       full_name = "#{table_name}.#{col}"
+      date_column = col =~ /_on\z/
       
       scope "#{key}_on", lambda { |time=nil|
         time ||= Time.zone.now
@@ -32,8 +33,7 @@ module DateRangeScopes
         
         starts_at = time.beginning_of_day
         ends_at = time.end_of_day
-        if key =~ /_on\z/
-          puts "Converting to date..."
+        if date_column
           starts_at = starts_at.to_date
           ends_at = ends_at.to_date
         end
@@ -51,8 +51,7 @@ module DateRangeScopes
           
           starts_at = time.send("beginning_of_#{period}")
           ends_at = time.send("end_of_#{period}")
-          if key =~ /_on\z/
-            puts "Converting to date..."
+          if date_column
             starts_at = starts_at.to_date
             ends_at = ends_at.to_date
           end
