@@ -33,6 +33,7 @@ module DateRangeScopes
         starts_at = time.beginning_of_day
         ends_at = time.end_of_day
         if key =~ /_on\z/
+          puts "Converting to date..."
           starts_at = starts_at.to_date
           ends_at = ends_at.to_date
         end
@@ -51,6 +52,7 @@ module DateRangeScopes
           starts_at = time.send("beginning_of_#{period}")
           ends_at = time.send("end_of_#{period}")
           if key =~ /_on\z/
+            puts "Converting to date..."
             starts_at = starts_at.to_date
             ends_at = ends_at.to_date
           end
