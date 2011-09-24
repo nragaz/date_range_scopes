@@ -19,7 +19,12 @@ module DateRangeScopes
   #   > #{updated}_today -> same as #{updated}_on(Date.today)
   #   > today(date) -> same as created_on(date)
   included do
-    date_columns = column_names.select { |col| col =~ /((_at)|(_on))\z/ }
+    begin
+      date_columns = column_names.select { |col| col =~ /((_at)|(_on))\z/ }
+    rescue
+      puts "Columns not available for date_range_scopes"
+      return
+    end
     
     date_columns.each do |col|
       key = col.slice(0..-4)
