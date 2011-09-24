@@ -21,51 +21,51 @@ module DateRangeScopes
   included do
     begin
       date_columns = column_names.select { |col| col =~ /((_at)|(_on))\z/ }
-    rescue
-      puts "Columns not available for date_range_scopes"
-      return
-    end
-    
-    date_columns.each do |col|
-      key = col.slice(0..-4)
-      full_name = "#{table_name}.#{col}"
-      date_column = col =~ /_on\z/
       
-      scope "#{key}_on", lambda { |time=nil|
-        time ||= Time.zone.now
-        time = time.respond_to?(:to_time_in_current_zone) ?
-          time.to_time_in_current_zone : time
-        
-        starts_at = time.beginning_of_day
-        ends_at = time.end_of_day
-        if date_column
-          starts_at = starts_at.to_date
-          ends_at = ends_at.to_date
-        end
-        
-        where "#{full_name} >= ? AND #{full_name} <= ?", starts_at, ends_at
-      }
-      
-      scope "#{key}_today", send("#{key}_on")
-      
-      %w( week month year ).each do |period|
-        scope "#{key}_in_#{period}", lambda { |time=nil|
+      date_columns.each do |col|
+        key = col.slice(0..-4)
+        full_name = "#{table_name}.#{col}"
+        date_column = col =~ /_on\z/
+
+        scope "#{key}_on", lambda { |time=nil|
           time ||= Time.zone.now
           time = time.respond_to?(:to_time_in_current_zone) ?
             time.to_time_in_current_zone : time
-          
-          starts_at = time.send("beginning_of_#{period}")
-          ends_at = time.send("end_of_#{period}")
+
+          starts_at = time.beginning_of_day
+          ends_at = time.end_of_day
           if date_column
             starts_at = starts_at.to_date
             ends_at = ends_at.to_date
           end
-          
+
           where "#{full_name} >= ? AND #{full_name} <= ?", starts_at, ends_at
         }
-        
-        scope "#{key}_this_#{period}", send("#{key}_in_#{period}")
+
+        scope "#{key}_today", send("#{key}_on")
+
+        %w( week month year ).each do |period|
+          scope "#{key}_in_#{period}", lambda { |time=nil|
+            time ||= Time.zone.now
+            time = time.respond_to?(:to_time_in_current_zone) ?
+              time.to_time_in_current_zone : time
+
+            starts_at = time.send("beginning_of_#{period}")
+            ends_at = time.send("end_of_#{period}")
+            if date_column
+              starts_at = starts_at.to_date
+              ends_at = ends_at.to_date
+            end
+
+            where "#{full_name} >= ? AND #{full_name} <= ?", starts_at, ends_at
+          }
+
+          scope "#{key}_this_#{period}", send("#{key}_in_#{period}")
+        end
       end
+      
+    rescue
+      puts "Columns not available for date_range_scopes"
     end
   end
   
