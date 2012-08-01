@@ -1,6 +1,6 @@
 module DateRangeScopes
   extend ActiveSupport::Concern
-  
+
   # Include this module in an Active Record class to add the following scopes
   # for every column ending in _at or _on (e.g. updated_at):
   #
@@ -21,7 +21,7 @@ module DateRangeScopes
   included do
     begin
       date_columns = column_names.select { |col| col =~ /((_at)|(_on))\z/ }
-      
+
       date_columns.each do |col|
         key = col.slice(0..-4)
         full_name = "#{table_name}.#{col}"
@@ -63,12 +63,12 @@ module DateRangeScopes
           scope "#{key}_this_#{period}", send("#{key}_in_#{period}")
         end
       end
-      
+
     rescue
-      puts "Columns not available for date_range_scopes"
+      puts "Columns not available for date_range_scopes" unless abstract_class?
     end
   end
-  
+
   module ClassMethods
     def today(date=nil)
       created_on(date)
